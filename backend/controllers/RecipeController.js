@@ -6,19 +6,15 @@ const RecipeController = {
     return res.json(recipes);
   },
   store: async (req, res) => {
-    try {
-      const { title, description, ingredients } = req.body;
+    const { title, description, ingredients } = req.body;
 
-      const recipe = await Recipe.create({
-        title,
-        description,
-        ingredients,
-      });
+    const recipe = await Recipe.create({
+      title,
+      description,
+      ingredients,
+    });
 
-      return res.json(recipe);
-    } catch (e) {
-      return res.status(400).json({ msg: "invalid fields" });
-    }
+    return res.json(recipe);
   },
   show: async (req, res) => {
     try {
