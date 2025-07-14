@@ -5,12 +5,37 @@ const RecipeController = {
   index: async (req, res) => {
     let limit = 6;
     let page = req.query.page || 1;
-    console.log(page);
+    console.log(typeof(req.query.page));
     let recipes = await Recipe.find()
       .skip((page - 1) * limit)
       .limit(6)
       .sort({ createdAt: -1 });
-    return res.json(recipes);
+
+    let totalRecipeCount = await Recipe.countDocuments();
+    let totalPageCount = Math.ceil(totalRecipeCount / limit);
+
+    /// backend info(hardcode)
+    let links = {
+      nextPage: totalPageCount == page ? false : true,
+      previousPage: page == 1 ? false : true,
+      currentPage: page,
+      loopableLinks: [],
+    };
+
+    console.log(links.nextPage);
+
+    // generate loopablelink array
+    for (let index = 0; index < totalPageCount; index++) {
+      let number = index + 1;
+      links.loopableLinks.push({ number });
+    }
+
+    let response = {
+      links,
+      data: recipes,
+    };
+
+    return res.json(response);
   },
   store: async (req, res) => {
     const { title, description, ingredients } = req.body;
