@@ -23,6 +23,11 @@ export default function Navbar() {
             Contact
           </Link>
         </li>
+        <li>
+          <Link to="/recipes/create" className="hover:text-orange-400">
+            Create Recipe
+          </Link>
+        </li>
       </ul>
     </nav>
   );
