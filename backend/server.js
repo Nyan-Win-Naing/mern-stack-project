@@ -3,6 +3,7 @@ require("dotenv").config();
 const morgan = require("morgan");
 const recipeRoutes = require("./routes/recipes");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 const mongoURL =
@@ -14,6 +15,7 @@ mongoose.connect(mongoURL).then(() => {
   });
 });
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
