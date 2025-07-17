@@ -40,6 +40,8 @@ const RecipeController = {
   store: async (req, res) => {
     const { title, description, ingredients } = req.body;
 
+    console.log("Form Data Testing: ", title, description, ingredients);
+
     const recipe = await Recipe.create({
       title,
       description,

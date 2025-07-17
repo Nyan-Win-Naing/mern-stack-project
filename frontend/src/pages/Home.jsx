@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import RecipeCard from "../components/RecipeCard";
 import Pagination from "../components/Pagination";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Home() {
   let [recipes, setRecipes] = useState([]);
   let [links, setLinks] = useState(null);
+  let navigate = useNavigate();
 
   let location = useLocation();
   let searchQuery = new URLSearchParams(location.search);
@@ -33,12 +34,22 @@ export default function Home() {
     fetchRecipes();
   }, [page]);
 
+  let onDeleted = (_id) => {
+    /// handle delete on client side
+    // @ts-ignore
+    if(recipes.length === 1 && page > 1) {
+      navigate('/?page=' + (page - 1));
+    } else {
+      setRecipes(prev => prev.filter(r => r._id !== _id));
+    }
+  };
+
 
   return (
     <div className="space-y-3">
       {!!recipes.length &&
         recipes.map((recipe) => (
-          <RecipeCard recipe={recipe} key={recipe._id} />
+          <RecipeCard recipe={recipe} key={recipe._id} onDeleted={onDeleted} />
         ))}
 
       {!!links && <Pagination links={links} page={page || 1} />}
