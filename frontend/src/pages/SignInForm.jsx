@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../helpers/axios";
 
 export default function SignInForm() {
   let [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ export default function SignInForm() {
       };
 
       let res = await axios.post(
-        "http://localhost:8000/api/users/login",
+        "/api/users/login",
         data,
         {
           withCredentials: true,
