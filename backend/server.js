@@ -6,6 +6,7 @@ const usersRoutes = require("./routes/users");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const AuthMiddlware = require("./middlewares/AuthMiddleware");
 
 const app = express();
 const mongoURL =
@@ -17,12 +18,12 @@ mongoose.connect(mongoURL).then(() => {
   });
 });
 
-app.use(cors(
-  {
+app.use(
+  cors({
     origin: "http://localhost:5173",
     credentials: true,
-  }
-));
+  })
+);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
@@ -31,7 +32,7 @@ app.get("/", (req, res) => {
   return res.json({ hello: "world" });
 });
 
-app.use("/api/recipes", recipeRoutes);
+app.use("/api/recipes", AuthMiddlware, recipeRoutes);
 app.use("/api/users", usersRoutes);
 
 app.get("/set-cookie", (req, res) => {

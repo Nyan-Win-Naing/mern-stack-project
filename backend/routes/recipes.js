@@ -5,7 +5,7 @@ const handleErrorMessage = require("../middlewares/handleErrorMessage");
 const router = express.Router();
 
 // get all recipes
-router.get("", RecipeController.index);
+router.get("" ,RecipeController.index);
 // post update single recipe
 router.post(
   "",

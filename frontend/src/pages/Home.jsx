@@ -13,7 +13,7 @@ export default function Home() {
   let searchQuery = new URLSearchParams(location.search);
   let page = searchQuery.get("page");
   // @ts-ignore
-  page = parseInt(page);
+  page = parseInt(page) ? parseInt(page) : 1;
 
   console.log("Page From Search Query is ====> " + page);
 
