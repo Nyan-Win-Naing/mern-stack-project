@@ -28,6 +28,18 @@ export default function Navbar() {
             Create Recipe
           </Link>
         </li>
+
+        <li>
+          <Link to="/sign-in" className="hover:text-orange-400">
+            Login
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/sign-up" className="hover:text-orange-400">
+            Register
+          </Link>
+        </li>
       </ul>
     </nav>
   );
