@@ -2,7 +2,24 @@ const User = require("../models/User");
 const createToken = require("../helpers/createToken");
 
 const UserController = {
-  login: (req, res) => {
+  login: async (req, res) => {
+    try {
+      let { email, password } = req.body;
+      let user = await User.login(email, password);
+
+      // create token
+      let token = createToken(user._id);
+
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: 3 * 24 * 60 * 603 * 24 * 60 * 60 * 1000,
+      });
+
+      return res.json({ user, token });
+    } catch (e) {
+      return res.status(400).json({ error: e.message });
+    }
+
     return res.json({ msg: "user login api hit" });
   },
   register: async (req, res) => {
