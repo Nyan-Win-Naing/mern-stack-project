@@ -8,6 +8,7 @@ import Contact from "./pages/Contact.jsx";
 import RecipeForm from "./pages/RecipeForm.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import React from "react";
+import SignUpForm from "pages/SignUpForm";
 
 let router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ let router = createBrowserRouter([
       {
         path: "/recipes/edit/:id",
         element: <RecipeForm />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUpForm />,
       },
     ],
   },
