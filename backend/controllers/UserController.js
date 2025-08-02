@@ -20,7 +20,6 @@ const UserController = {
       return res.status(400).json({ error: e.message });
     }
 
-    return res.json({ msg: "user login api hit" });
   },
   register: async (req, res) => {
     try {
