@@ -10,6 +10,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import React from "react";
 import SignUpForm from "./pages/SignUpForm.jsx";
 import SignInForm from "./pages/SignInForm.jsx";
+import { AuthContextProvider } from "./contexts/AuthContext";
 
 let router = createBrowserRouter([
   {
@@ -50,6 +51,8 @@ let router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
   </StrictMode>
 );
