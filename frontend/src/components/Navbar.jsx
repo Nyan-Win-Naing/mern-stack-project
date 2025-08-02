@@ -1,11 +1,19 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
+import axios from "../helpers/axios";
 
 export default function Navbar() {
+  let { name } = useContext(AuthContext);
+  let navigate = useNavigate();
 
-
-  let {name} = useContext(AuthContext);
+  let logout =  async () => {
+    let res = await axios.post("/api/users/logout");
+    if(res.status === 200) {
+      navigate("/sign-in");
+    }
+  
+  }
 
   console.log(name);
 
@@ -46,6 +54,12 @@ export default function Navbar() {
           <Link to="/sign-up" className="hover:text-orange-400">
             Register
           </Link>
+        </li>
+
+        <li>
+          <button onClick={logout} className="hover:text-orange-400">
+            Logout
+          </button>
         </li>
       </ul>
     </nav>
