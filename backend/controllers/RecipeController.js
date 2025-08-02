@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const RecipeController = {
   index: async (req, res) => {
+
     let limit = 6;
     let page = req.query.page || 1;
     console.log(typeof(req.query.page));
