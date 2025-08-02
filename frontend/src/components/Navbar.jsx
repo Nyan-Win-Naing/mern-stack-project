@@ -4,16 +4,16 @@ import { AuthContext } from "../contexts/AuthContext";
 import axios from "../helpers/axios";
 
 export default function Navbar() {
-  let { name } = useContext(AuthContext);
+  let { user, dispatch } = useContext(AuthContext);
   let navigate = useNavigate();
 
-  let logout =  async () => {
+  let logout = async () => {
     let res = await axios.post("/api/users/logout");
-    if(res.status === 200) {
+    if (res.status === 200) {
+      dispatch({type: "LOGOUT"});
       navigate("/sign-in");
     }
-  
-  }
+  };
 
   console.log(name);
 
@@ -44,23 +44,29 @@ export default function Navbar() {
           </Link>
         </li>
 
-        <li>
-          <Link to="/sign-in" className="hover:text-orange-400">
-            Login
-          </Link>
-        </li>
+        {!user && (
+          <>
+            <li>
+              <Link to="/sign-in" className="hover:text-orange-400">
+                Login
+              </Link>
+            </li>
 
-        <li>
-          <Link to="/sign-up" className="hover:text-orange-400">
-            Register
-          </Link>
-        </li>
+            <li>
+              <Link to="/sign-up" className="hover:text-orange-400">
+                Register
+              </Link>
+            </li>
+          </>
+        )}
 
-        <li>
-          <button onClick={logout} className="hover:text-orange-400">
-            Logout
-          </button>
-        </li>
+        {!!user && (
+          <li>
+            <button onClick={logout} className="hover:text-orange-400">
+              Logout
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   );

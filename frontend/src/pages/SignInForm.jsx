@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../helpers/axios";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function SignInForm() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [error, setError] = useState(null);
   let navigate = useNavigate();
+  let {dispatch} = useContext(AuthContext);
 
   let login = async (e) => {
     try {
@@ -27,6 +29,7 @@ export default function SignInForm() {
       // console.log(res);
 
       if (res.status === 200) {
+        dispatch({type: "LOGIN", payload: res.data.user});
         navigate("/");
       }
     } catch (e) {
