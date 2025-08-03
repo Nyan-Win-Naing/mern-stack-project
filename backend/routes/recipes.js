@@ -6,7 +6,7 @@ const upload = require("../helpers/upload");
 const router = express.Router();
 
 // get all recipes
-router.get("" ,RecipeController.index);
+router.get("", RecipeController.index);
 // post update single recipe
 router.post(
   "",
@@ -20,7 +20,26 @@ router.post(
 );
 // get single recipe
 router.get("/:id", RecipeController.show);
-router.post("/:id/upload", upload.single('photo'), RecipeController.upload);
+router.post(
+  "/:id/upload",
+  [
+    upload.single("photo"),
+    body("photo").custom((value, { req }) => {
+      
+      if (!req.file) {
+        throw new Error("Photo is required");
+      }
+
+      if(!req.file.mimetype.startsWith("image")) {
+        throw new Error("Photo must be image");
+      } 
+
+      return true;
+    }),
+  ],
+  handleErrorMessage,
+  RecipeController.upload
+);
 // delete single recipe
 router.delete("/:id", RecipeController.destroy);
 // patch update single recipe

@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 
 const handleErrorMessage = (req, res, next) => {
   const result = validationResult(req);
-
+  console.log("Validation Result is ===> ", result);
   if (!result.isEmpty()) {
     return res.status(400).json({ errors: result.mapped() });
   } else {
