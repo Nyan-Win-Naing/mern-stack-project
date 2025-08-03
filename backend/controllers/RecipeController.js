@@ -97,11 +97,21 @@ const RecipeController = {
     } catch (e) {
       return res.status(500).json({ msg: "internet server error" });
     }
-  },
+},
   upload: async (req, res) => {
     try {
-      console.log(req.file); // file object, undefined
-      return res.json({image: "uploaded"});
+      let id = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ msg: "not a valid id" });
+      }
+
+      let recipe = await Recipe.findByIdAndUpdate(id, {
+        photo: "/" + req.file.filename
+      });
+      if (!recipe) {
+        return res.status(404).json({ msg: "recipe not found" });
+      }
+      return res.json(recipe);
     } catch (e) {
       console.log(e);
       return res.status(500).json({ msg: "internet server error" });
