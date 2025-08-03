@@ -24,6 +24,7 @@ export default function RecipeForm() {
       if (id) {
         let res = await axios.get("/api/recipes/" + id);
         if (res.status === 200) {
+          setPreview(import.meta.env.VITE_BACKEND_URL + res.data.photo);
           setTitle(res.data.title);
           setDescription(res.data.description);
           setIngredients(res.data.ingredients);

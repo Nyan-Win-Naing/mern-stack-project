@@ -19,9 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     let fetchRecipes = async () => {
-      let response = await axios(
-        "/api/recipes?page=" + page
-      );
+      let response = await axios("/api/recipes?page=" + page);
       console.log(response);
       if (response.status === 200) {
         let data = response.data;
@@ -39,22 +37,26 @@ export default function Home() {
   let onDeleted = (_id) => {
     /// handle delete on client side
     // @ts-ignore
-    if(recipes.length === 1 && page > 1) {
-      navigate('/?page=' + (page - 1));
+    if (recipes.length === 1 && page > 1) {
+      navigate("/?page=" + (page - 1));
     } else {
-      setRecipes(prev => prev.filter(r => r._id !== _id));
+      setRecipes((prev) => prev.filter((r) => r._id !== _id));
     }
   };
 
-
   return (
-    <div className="space-y-3">
-      {!!recipes.length &&
-        recipes.map((recipe) => (
-          <RecipeCard recipe={recipe} key={recipe._id} onDeleted={onDeleted} />
-        ))}
-
+    <>
+      <div className="grid grid-cols-3 space-x-2 space-y-3">
+        {!!recipes.length &&
+          recipes.map((recipe) => (
+            <RecipeCard
+              recipe={recipe}
+              key={recipe._id}
+              onDeleted={onDeleted}
+            />
+          ))}
+      </div>
       {!!links && <Pagination links={links} page={page || 1} />}
-    </div>
+    </>
   );
 }
