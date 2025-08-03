@@ -25,6 +25,8 @@ router.post(
   [
     upload.single("photo"),
     body("photo").custom((value, { req }) => {
+
+      console.log(req.file);
       
       if (!req.file) {
         throw new Error("Photo is required");
