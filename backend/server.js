@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const AuthMiddlware = require("./middlewares/AuthMiddleware");
 
 const app = express();
+app.use(express.static("public"));
 const mongoURL =
   "mongodb+srv://nyanwinnaing1922002:test1234@mern-cluster.v1weskt.mongodb.net/?retryWrites=true&w=majority&appName=MERN-Cluster";
 mongoose.connect(mongoURL).then(() => {

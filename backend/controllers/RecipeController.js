@@ -3,10 +3,9 @@ const mongoose = require("mongoose");
 
 const RecipeController = {
   index: async (req, res) => {
-
     let limit = 6;
     let page = req.query.page || 1;
-    console.log(typeof(req.query.page));
+    console.log(typeof req.query.page);
     let recipes = await Recipe.find()
       .skip((page - 1) * limit)
       .limit(6)
@@ -96,6 +95,15 @@ const RecipeController = {
       }
       return res.json(recipe);
     } catch (e) {
+      return res.status(500).json({ msg: "internet server error" });
+    }
+  },
+  upload: async (req, res) => {
+    try {
+      console.log(req.file); // file object, undefined
+      return res.json({image: "uploaded"});
+    } catch (e) {
+      console.log(e);
       return res.status(500).json({ msg: "internet server error" });
     }
   },
