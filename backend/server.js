@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const AuthMiddlware = require("./middlewares/AuthMiddleware");
+const cron = require("node-cron");
+const User = require("./models/User");
 
 const app = express();
 app.use(express.static("public"));
@@ -15,6 +17,11 @@ const mongoURL =
 mongoose.connect(mongoURL).then(() => {
   console.log("connected to db");
   app.listen(process.env.PORT, () => {
+    cron.schedule("*/4 * * * * *", async () => {
+      let user = await User.findByIdAndUpdate("688ddff1e7fd254dd9796303", {
+        name: "mgmg" + Math.random(),
+      });
+    });
     console.log("app is running on localhost:" + process.env.PORT);
   });
 });

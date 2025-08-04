@@ -10,7 +10,7 @@ export default function Navbar() {
   let logout = async () => {
     let res = await axios.post("/api/users/logout");
     if (res.status === 200) {
-      dispatch({type: "LOGOUT"});
+      dispatch({ type: "LOGOUT" });
       navigate("/sign-in");
     }
   };
@@ -23,6 +23,11 @@ export default function Navbar() {
         <h1 className="font-bold text-2xl text-orange-400">Recipicity</h1>
       </div>
       <ul className="flex space-x-10">
+        {!!user && <li>
+          <Link to="/" className="hover:text-orange-400">
+            {user.name}
+          </Link>
+        </li>}
         <li>
           <Link to="/" className="hover:text-orange-400">
             Home
