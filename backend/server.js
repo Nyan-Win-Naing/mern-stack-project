@@ -10,6 +10,8 @@ const AuthMiddlware = require("./middlewares/AuthMiddleware");
 const cron = require("node-cron");
 const User = require("./models/User");
 
+const nodemailer = require("nodemailer");
+
 const app = express();
 app.use(express.static("public"));
 const mongoURL =
@@ -48,6 +50,31 @@ app.get("/set-cookie", (req, res) => {
   res.cookie("name", "aungaung");
   res.cookie("important-key", "value", { httpOnly: true });
   return res.send("cookie already set");
+});
+
+app.get("/send-email", async (req, res) => {
+  // Create a test account or replace with real credentials.
+// Looking to send emails in production? Check out our Email API/SMTP product!
+var transport = nodemailer.createTransport({
+  host: "sandbox.smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "9a4ae630c8d69d",
+    pass: "152ad1d3a01985"
+  }
+});
+
+
+  const info = await transport.sendMail({
+    from: 'mgmg@gmail.com',
+    to: "hlaingminthan@gmail.com",
+    subject: "Hello This is email title",
+    html: "<h1>Hello world this is email to hlaingminthan</h1>", // HTML body
+  });
+
+  console.log("Message sent:", info.messageId);
+
+  return res.send('email already sent');
 });
 
 app.get("/get-cookie", (req, res) => {
